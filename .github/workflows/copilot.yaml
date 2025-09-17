@@ -27,6 +27,7 @@ jobs:
         run: |
           mcp version
           mcp --help
+          mcp run --help
 
       # Run Copilot MCP Analysis
       - name: Run Copilot MCP Analysis
