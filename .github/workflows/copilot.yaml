@@ -1,0 +1,37 @@
+name: Copilot MCP Analysis
+
+on:
+  workflow_dispatch:
+
+jobs:
+  copilot-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Install MCP CLI (Node.js based)
+        run: |
+          npm install -g @modelcontextprotocol/cli
+
+      - name: Run Copilot MCP Analysis
+        env:
+          GITHUB_TOKEN: ${{ secrets.TTD_MCP_SECRET }}
+        run: |
+          # Authenticate MCP CLI with GitHub token (if required by toolset)
+          export MCP_GITHUB_TOKEN=$GITHUB_TOKEN
+
+          # Use remote GitHub Copilot MCP server (pull_requests + repos toolsets)
+          mcp run --server https://api.githubcopilot.com/mcp/x/pull_requests \
+            --prompt "Summarize open PRs and their key changes for this repo" > pr_summary.txt
+
+          mcp run --server https://api.githubcopilot.com/mcp/x/repos \
+            --prompt "Give me a quick overview of repo structure and purpose" > repo_summary.txt
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: copilot-mcp-output
+          path: |
+            pr_summary.txt
+            repo_summary.txt
