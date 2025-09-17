@@ -25,7 +25,7 @@ jobs:
       # ✅ Check MCP version and available commands
       - name: Check MCP installation
         run: |
-          mcp --version
+          mcp version
           mcp --help
 
       # Run Copilot MCP Analysis
