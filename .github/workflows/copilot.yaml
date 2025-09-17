@@ -10,11 +10,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-    # Install Python
+      # Install Python
       - name: Install Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'   # or a specific version like '3.11'
+          python-version: '3.11'
 
       # Upgrade pip and install MCP CLI
       - name: Install MCP CLI (Node.js based)
@@ -22,17 +22,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install mcp
 
+      # ✅ Check MCP version and available commands
+      - name: Check MCP installation
+        run: |
+          mcp --version
+          mcp --help
+
+      # Run Copilot MCP Analysis
       - name: Run Copilot MCP Analysis
         env:
           GITHUB_TOKEN: ${{ secrets.TTD_MCP_SECRET }}
         run: |
-          # Authenticate MCP CLI with GitHub token (if required by toolset)
           export MCP_GITHUB_TOKEN=$GITHUB_TOKEN
-
-          # Use remote GitHub Copilot MCP server (pull_requests + repos toolsets)
           mcp run --server https://api.githubcopilot.com/mcp/x/pull_requests \
             --prompt "Summarize open PRs and their key changes for this repo" > pr_summary.txt
-
           mcp run --server https://api.githubcopilot.com/mcp/x/repos \
             --prompt "Give me a quick overview of repo structure and purpose" > repo_summary.txt
 
