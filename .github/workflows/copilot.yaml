@@ -16,7 +16,7 @@ jobs:
 
       - name: Run Copilot MCP Analysis
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TTD_MCP_SECRET }}
         run: |
           # Authenticate MCP CLI with GitHub token (if required by toolset)
           export MCP_GITHUB_TOKEN=$GITHUB_TOKEN
