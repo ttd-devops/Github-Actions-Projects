@@ -10,9 +10,17 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+    # Install Python
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'   # or a specific version like '3.11'
+
+      # Upgrade pip and install MCP CLI
       - name: Install MCP CLI (Node.js based)
         run: |
-          npm install -g @modelcontextprotocol/cli
+          python -m pip install --upgrade pip
+          pip install mcp
 
       - name: Run Copilot MCP Analysis
         env:
