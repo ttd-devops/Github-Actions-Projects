@@ -10,7 +10,7 @@ jobs:
       - name: Call MCP to list repos in the org
         run: |
           curl -X POST https://api.githubcopilot.com/mcp/x/repos \
-            -H "Authorization: token ${{ secrets.TTD_MCP_SECRET }}" \
+            -H "Authorization: Bearer ${{ secrets.TTD_MCP_SECRET }}" \
             -H "X-MCP-Toolsets: repos" \
             -H "Content-Type: application/json" \
             -d '{
