@@ -28,7 +28,7 @@ jobs:
         run: |
           python3 scripts/copilot_prompt.py
         env:
-          COPILOT_SESSION: ${{ secrets.COPILOT_SESSION }}
+          COPILOT_SESSION: ${{ secrets.SESSION_ID }}
           PROMPT: ${{ github.event.inputs.user_prompt }}
 
       - name: Show Copilot response
