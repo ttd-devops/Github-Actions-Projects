@@ -26,4 +26,4 @@ jobs:
           REPO: ${{ github.repository }}
           ISSUE_NUMBER: ${{ inputs.issue_number }}
         run: |
-          python3 scripts/copilot_action.py
+          python3 scripts/copilot_prompt.py
