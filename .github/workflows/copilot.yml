@@ -6,9 +6,6 @@ on:
       prompt:
         description: "Prompt to send to Copilot"
         required: true
-      session_id:
-        description: "GitHub Copilot user_session token"
-        required: true
       repo:
         description: "Target repo (e.g. owner/name)"
         default: ${{ github.repository }}
@@ -28,7 +25,7 @@ jobs:
 
       - name: Run Copilot automation
         env:
-          SESSION_ID: ${{ inputs.session_id }}
+          SESSION_ID: ${{ secrets.SESSION_ID }}
           PROMPT: ${{ inputs.prompt }}
           REPO: ${{ inputs.repo }}
           ISSUE_NUMBER: ${{ inputs.issue_number }}
