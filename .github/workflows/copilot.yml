@@ -32,5 +32,5 @@ jobs:
       - name: Show Copilot response
         run: |
           echo "Copilot said:"
-          echo "${{ steps.run_copilot.outputs.copilot_response }}"
+          echo "${{ steps.copilot.outputs.copilot_response }}"
     
