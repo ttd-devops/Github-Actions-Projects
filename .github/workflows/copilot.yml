@@ -8,7 +8,7 @@ on:
         required: true
       repo:
         description: "Target repo (e.g. owner/name)"
-        default: ${{ github.repository }}
+        default: Github-Actions-Projects
         required: true
       issue_number:
         description: "Issue number (optional if your script uses it)"
