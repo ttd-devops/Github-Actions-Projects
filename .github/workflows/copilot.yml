@@ -1,37 +1,36 @@
-name: Copilot Prompt Runner
+name: Copilot Prompt Automation
 
 on:
   workflow_dispatch:
     inputs:
-      user_prompt:
+      prompt:
         description: "Prompt to send to Copilot"
         required: true
-        type: string
+      session_id:
+        description: "GitHub Copilot user_session token"
+        required: true
+      repo:
+        description: "Target repo (e.g. owner/name)"
+        default: ${{ github.repository }}
+        required: true
+      issue_number:
+        description: "Issue number (optional if your script uses it)"
+        required: false
 
 jobs:
   run-copilot:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.x"
+      - name: Install dependencies
+        run: python3 -m pip install requests
 
-      - name: Install requests
-        run: pip install requests
-
-      - name: Run prompt through Copilot
-        id: copilot
-        run: |
-          python3 scripts/copilot_prompt.py
+      - name: Run Copilot automation
         env:
-          COPILOT_SESSION: ${{ secrets.SESSION_ID }}
-          PROMPT: ${{ github.event.inputs.user_prompt }}
-
-      - name: Show Copilot response
+          SESSION_ID: ${{ inputs.session_id }}
+          PROMPT: ${{ inputs.prompt }}
+          REPO: ${{ inputs.repo }}
+          ISSUE_NUMBER: ${{ inputs.issue_number }}
         run: |
-          echo "Copilot said:"
-          echo "${{ steps.copilot.outputs.response }}"
+          python3 scripts/copilot_action.py
