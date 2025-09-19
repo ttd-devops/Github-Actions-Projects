@@ -20,6 +20,7 @@ jobs:
         run: python3 -m pip install requests
 
       - name: Run Copilot automation
+        id: copilot
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           PROMPT: ${{ inputs.prompt }}
@@ -27,3 +28,8 @@ jobs:
           ISSUE_NUMBER: ${{ inputs.issue_number }}
         run: |
           python3 scripts/copilot_prompt.py
+
+      - name: Show Copilot response
+        run: |
+          echo "Copilot said:"
+          echo "${{ steps.copilot.outputs.response }}"    
