@@ -6,10 +6,6 @@ on:
       prompt:
         description: "Prompt to send to Copilot"
         required: true
-      repo:
-        description: "Target repo (e.g. owner/name)"
-        default: Github-Actions-Projects
-        required: true
       issue_number:
         description: "Issue number (optional if your script uses it)"
         required: false
@@ -27,7 +23,7 @@ jobs:
         env:
           SESSION_ID: ${{ secrets.SESSION_ID }}
           PROMPT: ${{ inputs.prompt }}
-          REPO: ${{ inputs.repo }}
+          REPO: ${{ github.repository }}
           ISSUE_NUMBER: ${{ inputs.issue_number }}
         run: |
           python3 scripts/copilot_action.py
