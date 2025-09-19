@@ -1,0 +1,37 @@
+name: Copilot Prompt Runner
+
+on:
+  workflow_dispatch:
+    inputs:
+      user_prompt:
+        description: "Prompt to send to Copilot"
+        required: true
+        type: string
+
+jobs:
+  run-copilot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install requests
+        run: pip install requests
+
+      - name: Run prompt through Copilot
+        id: copilot
+        run: |
+          python3 scripts/copilot_prompt.py
+        env:
+          COPILOT_SESSION: ${{ secrets.COPILOT_SESSION }}
+          PROMPT: ${{ github.event.inputs.user_prompt }}
+
+      - name: Show Copilot response
+        run: |
+          echo "Copilot said:"
+          echo "${{ steps.copilot.outputs.response }}"
